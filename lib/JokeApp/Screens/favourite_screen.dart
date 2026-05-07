@@ -56,7 +56,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           itemBuilder: (context,index) {
             final item = favJokes[index];
 
-            //riddle
+
             if(item.type == "riddles"){
               return Card(
                 child: ListTile(

@@ -105,7 +105,9 @@ class _CategoryItemUiState extends State<CategoryItemUi>{
                          print(isRead);
                        });
                      }
-                     await DBCheck.instance.updateJoke(model: item);
+                     //await DBCheck.instance.updateJoke(model: item);
+                    final db = await DBCheck.instance.database;
+                     await db.update('jokes', {'is_readed ':item.isRead ? 1 : 0,},where: 'id = ?', whereArgs: [item.id]);
                   },
                   child: Container(
                     height: 50,
@@ -223,7 +225,9 @@ class _CategoryItemUiState extends State<CategoryItemUi>{
                         item.isRead = !item.isRead;
                       });
                     }
-                    await DBCheck.instance.updateJoke(model: item);
+                    //await DBCheck.instance.updateJoke(model: item);
+                    final db = await DBCheck.instance.database;
+                    await db.update('jokes', {'is_readed ':item.isRead ? 1 : 0,},where: 'id = ?', whereArgs: [item.id]);
 
                   },
                   child: Center(
@@ -338,7 +342,9 @@ class _CategoryItemUiState extends State<CategoryItemUi>{
                     item.isRead = !item.isRead;
                   });
                 }
-                await DBCheck.instance.updateJoke(model: item);
+                //await DBCheck.instance.updateJoke(model: item);
+                final db = await DBCheck.instance.database;
+                await db.update('jokes', {'is_readed ':item.isRead ? 1 : 0,},where: 'id = ?', whereArgs: [item.id]);
 
               },
               child: Center(
@@ -417,7 +423,9 @@ class _CategoryItemUiState extends State<CategoryItemUi>{
                       item.isRead = !item.isRead;
                     });
                   }
-                  await DBCheck.instance.updateJoke(model: item);
+                  //await DBCheck.instance.updateJoke(model: item);
+                  final db = await DBCheck.instance.database;
+                  await db.update('jokes', {'is_readed ':item.isRead ? 1 : 0,},where: 'id = ?', whereArgs: [item.id]);
                 },
                 child: Center(
                   child: Text(item.isRead ? "UnRead" : "Mark as Read",style: TextStyle(fontWeight: FontWeight.bold,color: isRead ? Colors.white : Colors.black),),
