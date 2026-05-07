@@ -1,19 +1,23 @@
 import 'dart:async';
-
+import 'package:jokes_app/JokeApp/databaseHelper/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'JokeApp/Screens/screen1.dart';
 import 'JokeApp/Screens/screen2_homepage.dart';
 import 'JokeApp/models/joke_model.dart';
 import 'package:jokes_app/JokeApp/Screens/viewall_categories.dart';
-void main(){
 
-  // print(allCategories);
-  // print(riddlesList);
-  // print(philosophyList);
-  // print(oneLIneJokeList1);
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DBCheck.instance.initDB();
   runApp(MyApp());
+  // await DBCheck.instance.insertAllJokes();
+  //await DBCheck.instance.insertConversation();
 }
+
+
+
+
 
 StreamController<bool> themeCtrl = StreamController.broadcast();
 
@@ -24,9 +28,11 @@ class MyApp  extends StatelessWidget {
     return StreamBuilder(
       stream: themeCtrl.stream,
       builder: (context, Snapshot) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: JokeApp(),
+        return SafeArea(
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: JokeApp(),
+          ),
         );
       }
     );
@@ -34,18 +40,7 @@ class MyApp  extends StatelessWidget {
 
 }
 
-// class BackgroundColors {
-//   Color first = Colors.black38;
-//   Color second = Colors.blueAccent;
-//   Color third = Colors.red;
-//
-// }
-//
-// Color primaryColor = Colors.red;
-//
-// List<Color> colorsApp = [
-//   Colors.red,Colors.black38,Colors.white
-// ];
+
 
 
 

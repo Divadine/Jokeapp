@@ -51,12 +51,16 @@ Widget buildSlide({required String bgImage,
               backgroundColor: Colors.blue,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
             ),
-            onPressed: (){
+            onPressed: () async {
               print(index < totalSlides - 1);
               if(index < totalSlides - 1){
                 pageController.animateToPage(index + 1, duration: Duration(milliseconds: 400), curve: Curves.easeOut);
               }else{
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen2Homepage()));
+                // showDialog(context: context, builder: (_) => Center(child: CircularProgressIndicator(),));
+                // await Future.delayed(Duration(seconds: 2), () {
+                //   Navigator.pop(context);
+                // });
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen2Homepage(), ));
               }
             },
             child: Text("Next", style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white),)),

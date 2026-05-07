@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jokes_app/JokeApp/Screens/screen2_homepage.dart';
 import 'package:jokes_app/JokeApp/widgets/homepage_slide_sharedwidget.dart';
-
+import 'package:jokes_app/JokeApp/databaseHelper/db_helper.dart';
 class JokeApp extends StatefulWidget {
   @override
   State<JokeApp> createState() => _JokeAppState();
 }
 
 class _JokeAppState extends State<JokeApp> {
+
+
+
   int currentIndex = 0;
   PageController pageController = PageController();
 
@@ -17,6 +20,15 @@ class _JokeAppState extends State<JokeApp> {
     {"bg": "assets/images/bg3_img.jpg", "img": "assets/images/slide2_img.jpg"},
     {"bg": "assets/images/bg4_img.jpg", "img": "assets/images/slide3_img.jpg"},
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    DBCheck.instance.initDB();
+    DBCheck.instance.insertAllJokes();
+    DBCheck.instance.insertConversation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +60,7 @@ class _JokeAppState extends State<JokeApp> {
             top: 30,
             right: 20,
             child: GestureDetector(
+
               onTap: () {
                 Navigator.pushReplacement(
                   context,

@@ -2,10 +2,82 @@ import 'package:flutter/material.dart';
 import 'package:jokes_app/JokeApp/models/joke_model.dart';
 import 'package:jokes_app/JokeApp/models/profilemodel.dart';
 
+//---------------------------------------------------------------------
+List<JokeContentModel> riddlesList = List.generate(10, (index) {
+  return JokeContentModel(
+    id: index + 1,
+    type: "riddles",
+    category: "riddle",
+    question: " what is what ",
+    answer: " this is",
+    image: "assets/images/images.jpg",
+    bgColor: Colors.greenAccent,
+  );
+});
 
 
+//---------------------------------------------------------------------
+List<JokeContentModel> philosophyList = List.generate(10, (index) {
+  return JokeContentModel(
+    id: index + 1,
+    type: "philosophy",
+    category: "joke",
+    content: " this is philosophy ",
+    image: "no image",
+    bgColor: Colors.white,
+  );
+});
+
+//---------------------------------------------------------------------
+
+List<JokeContentModel> oneLIneJokeList1 = List.generate(10, (index) {
+  return JokeContentModel(
+    id: index + 1,
+    type: "one line joke",
+    category: "joke",
+    content: " this is one line joke  ",
+    image: "no image",
+    bgColor: Colors.white,
+  );
+});
 
 
+//---------------------------------------------------------------------
+List<JokeContentModel> oneLIneJokeList2 = List.generate(10, (index) {
+  return JokeContentModel(
+    id: index + 1,
+    type: "one line joke",
+    category: "joke",
+    content: " this is one line joke  ",
+    image: "no image",
+    bgColor: Colors.greenAccent,
+  );
+});
+
+//---------------------------------------------------------------------
+List<JokeContentModel> sliderLists = [
+  ...riddlesList.take(1),
+  ...oneLIneJokeList1.take(1),
+  ...oneLIneJokeList2.take(1),
+  ...philosophyList.take(1),
+];
+
+//---------------------------------------------------------------------
+List<JokeContentModel> allJokes = [
+  ...riddlesList,
+  ...philosophyList,
+  ...oneLIneJokeList1,
+  ...oneLIneJokeList2,
+  ...allCategories.expand((e) => e.conversations),
+];
+
+List<JokeContentModel> getCategoryList(String type) {
+  return allJokes
+      .where((e) => e.type == type)
+      .toList();
+}
+
+//---------------------------------------------------------------------
 final husbandWifeCategory = JokeCategory(
   category: "Husband  & Wife ",
   conversations: [
@@ -73,7 +145,8 @@ final momDadCategory = JokeCategory(
 );
 
 final officeJokes = JokeCategory(
-    category: "office jokes",
+
+    category: "Office Joke",
     conversations: [
       JokeContentModel(id: 101, type: "conversation", category: "office jokes", bgColor: Colors.black38,
           chats: [
@@ -128,91 +201,7 @@ final broSisCategory = JokeCategory(
 
 
 
-final allCategories = [husbandWifeCategory,momDadCategory,broSisCategory,officeJokes];
-
-
-//------------------------------------------------------------------
+final allCategories = [husbandWifeCategory,momDadCategory,broSisCategory];
 
 
 //---------------------------------------------------------------------
-List<JokeContentModel> riddlesList = List.generate(10, (index) {
-  return JokeContentModel(
-    id: index + 1,
-    type: "riddles",
-    category: "riddle",
-    question: " what is what ",
-    answer: " this is",
-    image: "assets/images/images.jpg",
-    bgColor: Colors.greenAccent,
-  );
-});
-
-List<JokeContentModel> philosophyList = List.generate(10, (index) {
-  return JokeContentModel(
-    id: index + 1,
-    type: "philosophy",
-    category: "joke",
-    content: " this is philosophy ",
-    image: "no image",
-    bgColor: Colors.white,
-  );
-});
-
-// List<JokeContentModel> conversationList = List.generate(10, (index) {
-//   return JokeContentModel(
-//     id: index + 1,
-//     type: "conversation",
-//     category: "Husband & Wife",
-//     bgColor: Colors.grey,
-//     chats: [
-//       Dialogues(speakerName: "husband", message: " hi ", isLeft: true),
-//       Dialogues(speakerName: " Wife", message: " enna ", isLeft: false),
-//       Dialogues(speakerName: "Husband ", message: " Saptiya ", isLeft: true),
-//       Dialogues(speakerName: "Wife", message: " Sapten ", isLeft: false),
-//     ],
-//   );
-// });
-
-List<JokeContentModel> oneLIneJokeList1 = List.generate(10, (index) {
-  return JokeContentModel(
-    id: index + 1,
-    type: "One Line Joke",
-    category: "joke",
-    content: " this is one line joke  ",
-    image: "no image",
-    bgColor: Colors.white,
-  );
-});
-
-List<JokeContentModel> oneLIneJokeList2 = List.generate(10, (index) {
-  return JokeContentModel(
-    id: index + 1,
-    type: "One Line Joke",
-    category: "joke",
-    content: " this is one line joke  ",
-    image: "no image",
-    bgColor: Colors.greenAccent,
-  );
-});
-
-List<JokeContentModel> sliderLists = [
-  ...riddlesList.take(1),
-  ...oneLIneJokeList1.take(1),
-  ...oneLIneJokeList2.take(1),
-  ...philosophyList.take(1),
-];
-
-
-List<JokeContentModel> allJokes = [
-  ...riddlesList,
-  ...philosophyList,
-  ...oneLIneJokeList1,
-  ...oneLIneJokeList2,
-  ...allCategories.expand((e) => e.conversations),
-];
-
-List<JokeContentModel> getCategoryList(String type) {
-  return allJokes
-      .where((e) => e.type.toLowerCase().trim() == type.toLowerCase().trim())
-      .toList();
-}

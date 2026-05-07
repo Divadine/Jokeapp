@@ -1,24 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:jokes_app/JokeApp/data/jokesdata.dart';
+import 'package:jokes_app/JokeApp/databaseHelper/db_helper.dart';
 import 'package:jokes_app/JokeApp/models/joke_model.dart';
 import 'package:jokes_app/JokeApp/Screens/categories_list_inside_screen.dart';
 
 
 
-class ConversationCategoryScreen extends StatelessWidget{
+class ConversationCategoryScreen extends StatefulWidget{
 
-  final List<JokeContentModel> allJokes;
+  ConversationCategoryScreen({super.key});
 
+  @override
+  State<ConversationCategoryScreen> createState() => _ConversationCategoryScreenState();
+}
 
-  const ConversationCategoryScreen({required this.allJokes});
+class _ConversationCategoryScreenState extends State<ConversationCategoryScreen> {
+  List<JokeContentModel> categories = [];
+  bool isLoading = true;
+
+  @override
+  void initState(){
+    super.initState();
+    loadCategories();
+  }
+
+  void loadCategories() async {
+    final db = await DBCheck.instance.database;
+
+    final data = await db.query('conversations');
+
+    categories = data.map((e) {
+      final item = e as Map<String, dynamic>;
+      return JokeContentModel(
+        id: item['id'],
+        type: item['category'],
+        bgColor: Colors.white,
+      );
+    }).toList();
+
+    setState(() {
+      isLoading=false;
+    });
+  }
 
   @override
   Widget build(BuildContext context){
-    final categories = allJokes.where((e) => e.type == "conversation").map((e) => e.category).toSet().toList();
+
+    //final categories = allJokes.where((e) => e.type == "conversation").map((e) => e.category).toSet().toList();
+
+    print(categories.length);
     return Scaffold(
       appBar: AppBar(title: Text("Conversation Categories"),),
 
 
-      body: GridView.builder(
+      body:isLoading ? const Center(child: CircularProgressIndicator(),) : categories.isEmpty ? const Center(child: Text(" No Data Found"),) : GridView.builder(
 
         padding: EdgeInsets.all(12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -29,25 +64,14 @@ class ConversationCategoryScreen extends StatelessWidget{
           ),
           itemCount: categories.length,
           itemBuilder: (context,index){
-            String a = categories[index];
+            final category = categories[index];
 
             return GestureDetector(
               onTap: (){
 
-                print(categories);
-                print("------------------------------------");
-                print(allJokes.where((e) => e.type == "conversation").map((e) => e.category));
-                print(" ----------------------------------------------------------------------------------");
-                print(allJokes.where((e) => e.type == "conversation").map((e) => e.category).toSet());
-                print(("-------------------------------------------------------"));
-                print(allJokes.where((e) => e.type == "conversation").map((e) => e.category).toSet().toList());
 
-                print("-----------------------------");
-                print(allJokes.where((e) => e.category == a).toList());
-                print(a);
-                print("---------------------------------------------------------------------------");
-                List<JokeContentModel> filtered = allJokes.where((e) => e.category == a).toList();
-                Navigator.push(context, MaterialPageRoute(builder: (_) => CategoryListScreen(title: a, list: filtered,)));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => CategoryListScreen(title : "conversations", model: JokeContentModel(id: category.id, type: category.type, bgColor: Colors.white, category: 'conversations'),)));
+
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -56,11 +80,10 @@ class ConversationCategoryScreen extends StatelessWidget{
                 ),
                 padding: EdgeInsets.all(12),
                 child: Center(
-                  child: Text(a, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  child: Text(category.type, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
                 ),
               ),
             );
-            
           }
       ),
     );

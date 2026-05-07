@@ -61,6 +61,6 @@ class BottomControls extends StatelessWidget {
         ),
       ],
     );
-    print(item);
+
   }
 }
